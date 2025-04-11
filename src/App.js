@@ -101,54 +101,57 @@ function App() {
   };
 
   const receiveMessage = async () => {
+    console.log("🔁 Проверка новых сообщений...");
+  
     try {
-      // Получаем уведомления
       const response = await fetch(`https://api.green-api.com/waInstance${idInstance}/receiveNotification/${apiTokenInstance}`, {
         method: 'GET'
       });
-
+  
       const notification = await response.json();
-      
+      console.log("📨 Получено уведомление:", notification);
+  
       if (notification && notification.receiptId) {
-        // Обрабатываем уведомление
-        if (notification.body.typeWebhook === 'incomingMessageReceived' && 
-            notification.body.messageData.typeMessage === 'textMessage') {
-          
+        console.log("✅ Уведомление принято, receiptId:", notification.receiptId);
+  
+        const webhookType = notification?.body?.typeWebhook;
+        const messageType = notification?.body?.messageData?.typeMessage;
+  
+        if (webhookType === 'incomingMessageReceived' && messageType === 'textMessage') {
           const senderNumber = notification.body.senderData.sender.split('@')[0];
           const messageText = notification.body.messageData.textMessageData.textMessage;
-          
-          // Проверяем, есть ли уже такой чат
-          if (!chats[senderNumber]) {
-            setChats(prevChats => ({
+  
+          console.log(`📥 Входящее сообщение от ${senderNumber}: ${messageText}`);
+  
+          setChats(prevChats => {
+            const existingMessages = prevChats[senderNumber] || [];
+            return {
               ...prevChats,
-              [senderNumber]: []
-            }));
-          }
-          
-          // Добавляем входящее сообщение в чат
-          setChats(prevChats => ({
-            ...prevChats,
-            [senderNumber]: [
-              ...(prevChats[senderNumber] || []),
-              { 
-                id: notification.body.idMessage, 
-                type: 'incoming', 
-                text: messageText, 
-                timestamp: new Date().toISOString() 
-              }
-            ]
-          }));
+              [senderNumber]: [
+                ...existingMessages,
+                {
+                  id: notification.body.idMessage,
+                  type: 'incoming',
+                  text: messageText,
+                  timestamp: new Date().toISOString()
+                }
+              ]
+            };
+          });
         }
-        
-        // Удаляем обработанное уведомление
-        await fetch(`https://api.green-api.com/waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${notification.receiptId}`, {
+  
+        // Удаление уведомления
+        const deleteRes = await fetch(`https://api.green-api.com/waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${notification.receiptId}`, {
           method: 'DELETE'
         });
+        const deleteData = await deleteRes.json();
+        console.log("🗑️ Уведомление удалено:", deleteData);
       }
     } catch (error) {
-      console.error('Ошибка при получении сообщения:', error);
+      console.error("❌ Ошибка при получении сообщения:", error);
     }
   };
+  
 
   const logout = () => {
     setIsLoggedIn(false);
