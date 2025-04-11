@@ -1,70 +1,57 @@
-# Getting Started with Create React App
+# WhatsApp Web Clone с использованием GREEN-API
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Это приложение представляет собой простой клон веб-интерфейса WhatsApp, использующий GREEN-API для отправки и получения сообщений.
 
-## Available Scripts
+## Функциональность
 
-In the project directory, you can run:
+- Авторизация с использованием idInstance и apiTokenInstance из GREEN-API
+- Создание новых чатов по номеру телефона
+- Отправка текстовых сообщений
+- Автоматическое получение входящих сообщений
+- Простой и интуитивно понятный интерфейс, схожий с WhatsApp Web
 
-### `npm start`
+## Требования
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Node.js версии 14.0.0 или выше
+- Npm версии 6.0.0 или выше
+- Аккаунт в сервисе GREEN-API
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Инструкция по установке и запуску
 
-### `npm test`
+1. Клонируйте репозиторий:
+git clone https://github.com/ваш-аккаунт/whatsapp-green-api-test.git
+cd whatsapp-green-api-test
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Установите зависимости:
+npm install
 
-### `npm run build`
+3. Запустите приложение в режиме разработки:
+npm start
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. Откройте http://localhost:3000 в вашем браузере
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Инструкция по использованию
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Получите учетные данные GREEN-API:
+- Зарегистрируйтесь на сайте https://green-api.com/
+- Создайте инстанс и авторизуйте его через QR-код WhatsApp
+- Скопируйте идентификатор инстанса (idInstance) и токен (apiTokenInstance)
 
-### `npm run eject`
+2. Авторизуйтесь в приложении:
+- Введите полученные idInstance и apiTokenInstance
+- Нажмите кнопку "Войти"
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Создайте новый чат:
+- Введите номер телефона в международном формате без "+" (например, 79123456789)
+- Нажмите кнопку "Создать чат"
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. Отправьте сообщение:
+- Выберите чат из списка слева
+- Введите текст сообщения в поле внизу
+- Нажмите кнопку "Отправить"
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Особенности тестирования
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Приложение проверяет наличие новых сообщений каждые 5 секунд
+- Для корректной работы необходимо, чтобы инстанс в GREEN-API был активен
+- Номер телефона получателя должен быть зарегистрирован в WhatsApp
